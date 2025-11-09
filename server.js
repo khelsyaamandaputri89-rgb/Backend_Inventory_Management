@@ -16,25 +16,25 @@ const searchRouter = require("./src/Routes/searchRoute")
 app.use(express.json())
 app.use(cors())
 
-app.use("/auth", authRouter)
+app.use("/api/auth", authRouter)
 
-app.use("/dashboard", dashboardRouter)
+app.use("/api/dashboard", dashboardRouter)
 
-app.use("/users", userRouter)
+app.use("/api/users", userRouter)
 
-app.use("/products", productRouter)
+app.use("/api/products", productRouter)
 
-app.use("/orders", orderRouter)
+app.use("/api/orders", orderRouter)
 
-app.use("/order-items", orderItemRouter)
+app.use("/api/order-items", orderItemRouter)
 
-app.use("/categories", categoryRouter)
+app.use("/api/categories", categoryRouter)
 
-app.use("/reports", reportRouter)
+app.use("/api/reports", reportRouter)
 
-app.use("/stocks", stockRouter)
+app.use("/api/stocks", stockRouter)
 
-app.use("/search", searchRouter)
+app.use("/api/search", searchRouter)
 
 app.listen(process.env.PORT, () => {
    console.log(`Server berjalan di http://localhost:${process.env.PORT}`);
