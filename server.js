@@ -13,13 +13,8 @@ const stockRouter = require("./src/Routes/stockRoute")
 const dashboardRouter = require("./src/Routes/dashboardRoute")
 const searchRouter = require("./src/Routes/searchRoute")
 
-const corsOptions = {
-   origin: 'https://frontendinventory-management.vercel.app',
-   credentials: true
-}
-
 app.use(express.json())
-app.use(cors(corsOptions))
+app.use(cors())
 
 app.use("/api/auth", authRouter)
 
