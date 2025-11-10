@@ -1,57 +1,37 @@
-// const { Sequelize } = require("sequelize")
-// require("dotenv").config()
+const { Sequelize } = require("sequelize")
+require("dotenv").config()
 
-// const DATABASE_URL = process.env.DATABASE_URL
-// let sequelize
+const DATABASE_URL = process.env.DATABASE_URL
+let sequelize
 
-// if (DATABASE_URL) {
-//    sequelize = new Sequelize(DATABASE_URL, {
-//       dialect: 'postgres',
-//       logging: false,
-//       dialectOptions: {
-//          ssl: {
-//             require: true, 
-//             rejectUnauthorized: false 
-//          }
-//       }
-//    })
-// } else {
-//    const config = require("./src/config/config.json") ["development"]
-//    sequelize = new Sequelize (
-//       process.env.DB_NAME,
-//       process.env.DB_USER,
-//       process.env.DB_PASSWORD,
-//       {
-//          host : process.env.DB_HOST,
-//          port : process.env.DB_PORT,
-//          dialect : "postgres",
-//          logging : false
-//       }
-//    )
-// }
-
-// sequelize.authenticate()
-//    .then(() => console.log('koneksi dengan database berhasil'))
-//    .catch(err => console.log('Error:' + err))
-
-// module.exports = sequelize;
-
-
-const { Sequelize } = require("sequelize");
-require("dotenv").config();
-
-const DATABASE_URL = process.env.DATABASE_URL;
-
-const sequelize = new Sequelize(DATABASE_URL, {
-  dialect: "postgres",
-  logging: false,
-  dialectOptions: {
-    ssl: { require: true, rejectUnauthorized: false },
-  },
-});
+if (DATABASE_URL) {
+   sequelize = new Sequelize(DATABASE_URL, {
+      dialect: 'postgres',
+      logging: false,
+      dialectOptions: {
+         ssl: {
+            require: true, 
+            rejectUnauthorized: false 
+         }
+      }
+   })
+} else {
+   const config = require("./src/config/config.json") ["development"]
+   sequelize = new Sequelize (
+      process.env.DB_NAME,
+      process.env.DB_USER,
+      process.env.DB_PASSWORD,
+      {
+         host : process.env.DB_HOST,
+         port : process.env.DB_PORT,
+         dialect : "postgres",
+         logging : false
+      }
+   )
+}
 
 sequelize.authenticate()
-  .then(() => console.log("✅ Koneksi dengan database berhasil"))
-  .catch(err => console.error("❌ Database connection failed:", err));
+   .then(() => console.log('koneksi dengan database berhasil'))
+   .catch(err => console.log('Error:' + err))
 
 module.exports = sequelize;
