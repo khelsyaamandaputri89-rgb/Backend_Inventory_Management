@@ -1,12 +1,12 @@
 const { Sequelize } = require("sequelize")
 require("dotenv").config()
 
-const isProduction = process.env.DATABASE_URL
+const isProduction = process.env.DATABASE_PUBLIC_URL
 
 let sequelize
 
 if (isProduction) {
-   sequelize = new Sequelize(process.env.DATABASE_URL, {
+   sequelize = new Sequelize(process.env.DATABASE_PUBLIC_URL, {
       dialect: 'postgres',
       logging: false,
       dialectOptions: {
