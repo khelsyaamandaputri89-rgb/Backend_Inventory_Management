@@ -1,38 +1,43 @@
-const { Sequelize } = require("sequelize")
-require("dotenv").config()
+const { Sequelize } = require("sequelize");
+require("dotenv").config();
 
-const isProduction = process.env.DATABASE_PUBLIC_URL
+// Use DATABASE_URL (Railway) or DATABASE_PUBLIC_URL as fallback
+const DATABASE_URL =
+  process.env.DATABASE_URL || process.env.DATABASE_PUBLIC_URL;
 
-let sequelize
+let sequelize;
 
-if (isProduction) {
-   sequelize = new Sequelize(process.env.DATABASE_PUBLIC_URL, {
-      dialect: 'postgres',
-      logging: false,
-      dialectOptions: {
-         ssl: {
-            require: true, 
-            rejectUnauthorized: false 
-         }
-      }
-   })
+if (DATABASE_URL) {
+  // Production / Railway
+  sequelize = new Sequelize(DATABASE_URL, {
+    dialect: "postgres",
+    logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+  });
 } else {
-   const config = require("./src/config/config.json") ["development"]
-   sequelize = new Sequelize (
-      process.env.DB_NAME,
-      process.env.DB_USER,
-      process.env.DB_PASSWORD,
-      {
-         host : process.env.DB_HOST,
-         port : process.env.DB_PORT,
-         dialect : "postgres",
-         logging : false
-      }
-   )
+  // Local development
+  sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      dialect: "postgres",
+      logging: false,
+    }
+  );
 }
 
-sequelize.authenticate()
-   .then(() => console.log('koneksi dengan database berhasil'))
-   .catch(err => console.log('Error:' + err))
+// Test connection
+sequelize
+  .authenticate()
+  .then(() => console.log("✅ Koneksi dengan database berhasil"))
+  .catch((err) => console.error("❌ Database connection failed:", err));
 
 module.exports = sequelize;

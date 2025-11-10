@@ -36,7 +36,7 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    // try {
+    try {
         const { email, password } = req.body
 
         const user = await User.findOne({where : {email}})
@@ -54,13 +54,13 @@ const login = async (req, res) => {
         console.log("Found user:", user);
         console.log("Secret key:", process.env.SECRET_KEY);
         res.status(200).json({message : "Login berhasil", user : userWithoutPassword , token})
-    // } catch (error) {
+    } catch (error) {
 
         console.error(error)
         
         res.status(500).json({message : "Terjadi kesalahan!", error : error.message})
     }
-// }
+}
 
 const forgottenPassword = async (req, res) => {
     try {
