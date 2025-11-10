@@ -120,8 +120,8 @@ const dashboardSuperadmin = async (req, res) => {
         console.log("Start:", start, "End:", end)
 
         if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-            console.error("Tanggal invalid!", start, end);
-            return res.status(400).json({ message: "Date invalid!" });
+            console.error("Tanggal invalid!", start, end)
+            return res.status(400).json({ message: "Date invalid!" })
         }
 
         const products = await Product.findAll({
@@ -180,12 +180,15 @@ const dashboardSuperadmin = async (req, res) => {
             const stockAwal = stockData.find((s) => s.product_id == product.id)
             const stockAkhir = stockAwal ? stockAwal.stock_akhir : 0
 
+            const categoryName = product.Category ? product.Category.name : 'Unknown'
+
             const productSales = orderitems
                 .filter((item) => item.product_id == product.id)
                 .reduce((acc, item) => acc + item.quantity * item.product_price, 0)
 
             return {
                 name : product.name,
+                category : categoryName,
                 sales : productSales,
                 purchase : 0,
                 stock : stockAkhir
@@ -210,7 +213,6 @@ const dashboardSuperadmin = async (req, res) => {
 
         res.status(200).json({
             sales : totalSales,
-            purchase : 0,
             stock : totalStock,
             user : totalUser,
             totalCategories,

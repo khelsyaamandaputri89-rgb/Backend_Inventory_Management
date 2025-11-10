@@ -3,20 +3,36 @@ require("dotenv").config()
 
 const DATABASE_URL = process.env.DATABASE_URL
 
-if (!DATABASE_URL) {
-  throw new Error("❌ DATABASE_URL is not defined!")
+let sequelize
+
+if (DATABASE_URL) {
+   sequelize = new Sequelize(DATABASE_URL, {
+      dialect: 'postgres',
+      logging: false,
+      dialectOptions: {
+         ssl: {
+            require: true, 
+            rejectUnauthorized: false 
+         }
+      }
+   })
+} else {
+   const config = require("./src/config/config.json") ["development"]
+   sequelize = new Sequelize (
+      process.env.DB_NAME,
+      process.env.DB_USER,
+      process.env.DB_PASSWORD,
+      {
+         host : process.env.DB_HOST,
+         port : process.env.DB_PORT,
+         dialect : "postgres",
+         logging : false
+      }
+   )
 }
 
-const sequelize = new Sequelize(DATABASE_URL, {
-  dialect: "postgres",
-  logging: false,
-  dialectOptions: {
-    ssl: { require: true, rejectUnauthorized: false },
-  },
-});
-
 sequelize.authenticate()
-  .then(() => console.log("✅ Koneksi dengan database berhasil"))
-  .catch(err => console.error("❌ Database connection failed:", err));
+   .then(() => console.log('koneksi dengan database berhasil'))
+   .catch(err => console.log('Error:' + err))
 
 module.exports = sequelize;
