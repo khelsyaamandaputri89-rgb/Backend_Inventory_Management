@@ -14,7 +14,13 @@ const dashboardRouter = require("./src/Routes/dashboardRoute")
 const searchRouter = require("./src/Routes/searchRoute")
 
 app.use(express.json())
-app.use(cors())
+app.use(cors(
+   {
+      origin: ["https://frontendinventory-management.vercel.app/"],
+      methods: ["POST", "GET"],
+      credentials: true
+   }
+))
 
 app.use("/api/auth", authRouter)
 
