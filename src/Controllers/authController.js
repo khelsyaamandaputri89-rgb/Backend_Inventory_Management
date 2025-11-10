@@ -50,13 +50,15 @@ const login = async (req, res) => {
         const token = jwt.sign({id: user.id,username: user.username,email: user.email,role: user.role}, 
         process.env.SECRET_KEY, {expiresIn : '1d'} )
 
+        console.log("Login request body:", req.body);
+        console.log("Found user:", user);
+        console.log("Secret key:", process.env.SECRET_KEY);
         res.status(200).json({message : "Login berhasil", user : userWithoutPassword , token})
-
     } catch (error) {
 
         console.error(error)
         
-        res.status(500).json("Terjadi kesalahan!")
+        res.status(500).json({message : "Terjadi kesalahan!", error : error.message})
     }
 }
 
