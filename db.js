@@ -1,5 +1,4 @@
 const { Sequelize } = require("sequelize")
-const config = require("./src/config/config.json") ["development"]
 require("dotenv").config()
 
 const isProduction = process.env.DATABASE_URL
@@ -7,18 +6,19 @@ const isProduction = process.env.DATABASE_URL
 let sequelize
 
 if (isProduction) {
-    sequelize = new Sequelize(process.env.DATABASE_URL, {
-        dialect: 'postgres',
-        logging: false,
-        dialectOptions: {
-            ssl: {
-                require: true, 
-                rejectUnauthorized: false 
-            }
-        }
-    })
+   sequelize = new Sequelize(process.env.DATABASE_URL, {
+      dialect: 'postgres',
+      logging: false,
+      dialectOptions: {
+         ssl: {
+            require: true, 
+            rejectUnauthorized: false 
+         }
+      }
+   })
 } else {
-   const sequelize = new Sequelize (
+   const config = require("./src/config/config.json") ["development"]
+   sequelize = new Sequelize (
       process.env.DB_NAME,
       process.env.DB_USER,
       process.env.DB_PASSWORD,
@@ -33,6 +33,6 @@ if (isProduction) {
 
 sequelize.authenticate()
    .then(() => console.log('koneksi dengan database berhasil'))
-   .catch(err => console.log('Error' + err))
+   .catch(err => console.log('Error:' + err))
 
 module.exports = sequelize;
