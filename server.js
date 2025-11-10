@@ -36,7 +36,7 @@ app.use("/api/stocks", stockRouter)
 
 app.use("/api/search", searchRouter)
 
-app.listen(process.env.PORT || 8080, () => {
-   console.log(`Server berjalan di http://localhost:${process.env.PORT || 8080}`);
+app.listen(process.env.PORT || 7000, () => {
+   console.log(`Server berjalan di http://localhost:${process.env.PORT || 7000}`);
 });
   

@@ -1,43 +1,57 @@
+// const { Sequelize } = require("sequelize")
+// require("dotenv").config()
+
+// const DATABASE_URL = process.env.DATABASE_URL
+// let sequelize
+
+// if (DATABASE_URL) {
+//    sequelize = new Sequelize(DATABASE_URL, {
+//       dialect: 'postgres',
+//       logging: false,
+//       dialectOptions: {
+//          ssl: {
+//             require: true, 
+//             rejectUnauthorized: false 
+//          }
+//       }
+//    })
+// } else {
+//    const config = require("./src/config/config.json") ["development"]
+//    sequelize = new Sequelize (
+//       process.env.DB_NAME,
+//       process.env.DB_USER,
+//       process.env.DB_PASSWORD,
+//       {
+//          host : process.env.DB_HOST,
+//          port : process.env.DB_PORT,
+//          dialect : "postgres",
+//          logging : false
+//       }
+//    )
+// }
+
+// sequelize.authenticate()
+//    .then(() => console.log('koneksi dengan database berhasil'))
+//    .catch(err => console.log('Error:' + err))
+
+// module.exports = sequelize;
+
+
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-// Use DATABASE_URL (Railway) or DATABASE_PUBLIC_URL as fallback
-const DATABASE_URL =
-  process.env.DATABASE_URL || process.env.DATABASE_PUBLIC_URL;
+const DATABASE_URL = process.env.DATABASE_URL;
 
-let sequelize;
+const sequelize = new Sequelize(DATABASE_URL, {
+  dialect: "postgres",
+  logging: false,
+  dialectOptions: {
+    ssl: { require: true, rejectUnauthorized: false },
+  },
+});
 
-if (DATABASE_URL) {
-  // Production / Railway
-  sequelize = new Sequelize(DATABASE_URL, {
-    dialect: "postgres",
-    logging: false,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
-  });
-} else {
-  // Local development
-  sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      dialect: "postgres",
-      logging: false,
-    }
-  );
-}
-
-// Test connection
-sequelize
-  .authenticate()
+sequelize.authenticate()
   .then(() => console.log("✅ Koneksi dengan database berhasil"))
-  .catch((err) => console.error("❌ Database connection failed:", err));
+  .catch(err => console.error("❌ Database connection failed:", err));
 
 module.exports = sequelize;
