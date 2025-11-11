@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require("express")
 const app = express()
 const cors = require("cors")
@@ -12,9 +13,11 @@ const reportRouter = require("./src/Routes/reportRoute")
 const stockRouter = require("./src/Routes/stockRoute")
 const dashboardRouter = require("./src/Routes/dashboardRoute")
 const searchRouter = require("./src/Routes/searchRoute")
+const PORT = process.env.PORT || 7000
 
-app.use(express.json())
+
 app.use(cors())
+app.use(express.json())
 
 app.use("/api/auth", authRouter)
 
@@ -36,7 +39,7 @@ app.use("/api/stocks", stockRouter)
 
 app.use("/api/search", searchRouter)
 
-app.listen(process.env.PORT || 7000, () => {
-   console.log(`Server berjalan di http://localhost:${process.env.PORT || 7000}`);
+app.listen(PORT, () => {
+   console.log(`Server berjalan di http://localhost:${PORT}`);
 });
   

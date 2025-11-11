@@ -1,8 +1,9 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const {User} = require("../Models") 
+const nodemailer = require("nodemailer")
 
-// require("dotenv").config()
+require("dotenv").config()
 
 const register = async (req, res) => {
     try {
@@ -62,6 +63,22 @@ const login = async (req, res) => {
     }
 }
 
+console.log("EMAIL_USER:", process.env.EMAIL_USER);
+console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? "ADA ✅" : "KOSONG ❌");
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+})
+
 const forgottenPassword = async (req, res) => {
     try {
         const {email} = req.body
@@ -73,6 +90,23 @@ const forgottenPassword = async (req, res) => {
 
         
         const resetLink = `http://localhost:5173/reset-password?token=${token}`
+        // const resetLink = `https://k-smart.vercel.app/reset-password?token=${token}`
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Reset Password K-SmartInventory",
+            html: `
+                <h3>Halo ${users.username},</h3>
+                    <p>Kami menerima permintaan untuk mereset password akun Anda.</p>
+                    <p>Klik link di bawah ini untuk mengatur ulang password Anda:</p>
+                        <a href="${resetLink}" target="_blank" style="color:#b91c1c;">Reset Password</a>
+                    <br><br>
+                    <p>Link ini hanya berlaku selama 24 jam.</p>
+            `
+        }
+
+        await transporter.sendMail(mailOptions)
 
         console.log("Reset link :", resetLink)
 
