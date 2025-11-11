@@ -1,41 +1,20 @@
-const { Sequelize } = require("sequelize")
-require("dotenv").config()
+const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
-const DATABASE_URL = process.env.DATABASE_URL
-
-let sequelize
-
-if (DATABASE_URL) {
-  sequelize = new Sequelize(DATABASE_URL, {
-    dialect: "postgres",
+const sequelize = new Sequelize(
+  process.env.PGDATABASE,
+  process.env.PGUSER,
+  process.env.PGPASSWORD,
+  {
+    host: process.env.PGHOST,
+    port: process.env.PGPORT,
+    dialect: 'postgres',
     logging: false,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      }
-    }
-  })
-} else {
-  sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      dialect: "postgres",
-      logging: false,
-      dialectOptions: {
-        ssl: process.env.DB_SSL === "true" ? { require: true, rejectUnauthorized: false } : false,
-      }
-    }
-  )
-}
+  }
+);
 
-sequelize
-  .authenticate()
-  .then(() => console.log("✅ Koneksi database berhasil"))
-  .catch((err) => console.error("❌ Gagal konek database:", err.message))
+sequelize.authenticate()
+  .then(() => console.log('✅ Koneksi ke PostgreSQL berhasil!'))
+  .catch(err => console.error('❌ Gagal konek ke PostgreSQL:', err));
 
-module.exports = sequelize
+module.exports = sequelize;
