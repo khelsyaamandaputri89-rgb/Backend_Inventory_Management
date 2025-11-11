@@ -15,8 +15,14 @@ const dashboardRouter = require("./src/Routes/dashboardRoute")
 const searchRouter = require("./src/Routes/searchRoute")
 const PORT = process.env.PORT || 7000
 
+const corsOptions = {
+  origin: 'https://frontendinventory-management.vercel.app', 
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204
+}
 
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.json())
 
 app.use("/api/auth", authRouter)
