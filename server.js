@@ -63,9 +63,21 @@ sequelize.authenticate()
     console.log("🔄 Semua model berhasil disinkronkan ke database!");
 
     app.listen(PORT,"0.0.0.0", () => {
-      console.log(`🚀 Server berjalan di port ${PORT}`);
+      console.log(`🚀 Server berjalan di port ${PORT} (listening on 0.0.0.0)`);
+    })
+
+    process.on("unhandledRejection", (reason) => {
+      console.error("❌ Unhandled Rejection:", reason);
+    })
+
+    process.on("uncaughtException", (err) => {
+      console.error("❌ Uncaught Exception:", err);
     })
   })
   .catch((err) => {
     console.error("❌ Gagal konek ke PostgreSQL:", err.message);
   })
+
+  setInterval(() => {
+    console.log("⏳ Keep-alive ping...");
+  }, 60000)
