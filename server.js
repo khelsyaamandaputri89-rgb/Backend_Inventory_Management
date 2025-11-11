@@ -18,7 +18,9 @@ const app = express()
 const PORT = process.env.PORT || 3000
 
 const corsOptions = {
-  origin: ["https://frontendinventory-management.vercel.app"], 
+  origin: ["https://frontendinventory-management.vercel.app",
+            "http://localhost:5173"
+          ], 
   methods: ["GET","HEAD","PUT","PATCH","POST","DELETE", "OPTIONS"],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
