@@ -54,7 +54,7 @@ app.use("/api/stocks", stockRouter)
 
 app.use("/api/search", searchRouter)
 
-app.listen(PORT, () => {
+app.listen(PORT,"0.0.0.0", () => {
    console.log(`Server berjalan di port ${PORT}`);
 })
 
