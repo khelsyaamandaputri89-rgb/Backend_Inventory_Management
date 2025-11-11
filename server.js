@@ -58,5 +58,4 @@ app.listen(PORT,"0.0.0.0", () => {
    console.log(`Server berjalan di port ${PORT}`);
 })
 
-
-  
+setInterval(() => {}, 1000 * 60 * 10)
