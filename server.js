@@ -56,8 +56,20 @@ app.use("/api/stocks", stockRouter)
 
 app.use("/api/search", searchRouter)
 
+sequelize.authenticate()
+  .then(async () => {
+    console.log("✅ Koneksi ke PostgreSQL berhasil!");
+    await sequelize.sync({ alter: true });
+    console.log("🔄 Semua model berhasil disinkronkan ke database!");
+
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`🚀 Server berjalan di port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Gagal konek ke PostgreSQL:", err.message);
+  });
+
 app.listen(PORT,"0.0.0.0", () => {
    console.log(`Server berjalan di port ${PORT}`);
 })
-
-setInterval(() => {}, 1000 * 60 * 10)

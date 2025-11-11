@@ -33,15 +33,4 @@ if (isProduction) {
   console.log("🟠 Mode: Local Development");
 }
 
-(async () => {
-  try {
-    await sequelize.authenticate();
-    console.log("✅ Koneksi ke PostgreSQL berhasil!");
-    await sequelize.sync({ alter: true });
-    console.log("🔄 Semua model berhasil disinkronkan ke database!");
-  } catch (err) {
-    console.error("❌ Gagal konek ke PostgreSQL:", err.message);
-  }
-})();
-
 module.exports = sequelize;
