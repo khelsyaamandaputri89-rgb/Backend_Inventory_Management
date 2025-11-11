@@ -15,7 +15,7 @@ const dashboardRouter = require("./src/Routes/dashboardRoute")
 const searchRouter = require("./src/Routes/searchRoute")
 
 const app = express()
-const PORT = process.env.PORT || 7000
+const PORT = process.env.PORT || 3000
 
 const corsOptions = {
   origin: ["https://frontendinventory-management.vercel.app"], 
