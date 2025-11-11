@@ -76,7 +76,7 @@ sequelize.authenticate()
 
     setInterval(() => {
       console.log("⏳ Keep-alive ping...");
-    }, 60000)
+    }, 15000)
   })
   .catch((err) => {
     console.error("❌ Gagal konek ke PostgreSQL:", err.message);
