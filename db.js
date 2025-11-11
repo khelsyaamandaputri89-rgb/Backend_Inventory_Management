@@ -6,17 +6,14 @@ const isProduction = !!process.env.DATABASE_URL
 let sequelize
 
 if (isProduction) {
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect: "postgres",
-    protocol: "postgres",
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false, 
+   sequelize = new Sequelize(process.env.DATABASE_URL, {
+      dialect: "postgres",
+      dialectOptions: {
+         ssl: { require: true, rejectUnauthorized: false },
       },
-    },
-    logging: false,
-  })
+      logging: false,
+   })
+
   console.log("🟢 Mode: Production (DATABASE_URL digunakan)");
 } else {
   sequelize = new Sequelize(
@@ -35,7 +32,7 @@ if (isProduction) {
 
 (async () => {
   try {
-    await sequelize.authenticate();
+    await sequelize.authenticate()
     console.log("✅ Koneksi ke PostgreSQL berhasil!");
 
     await sequelize.sync({ alter: true }); 
