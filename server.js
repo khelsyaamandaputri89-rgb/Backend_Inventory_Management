@@ -39,7 +39,12 @@ app.use("/api/stocks", stockRouter)
 
 app.use("/api/search", searchRouter)
 
-app.listen(PORT, () => {
-   console.log(`Server berjalan di http://localhost:${PORT}`);
-});
+app.listen(PORT,"0.0.0.0", () => {
+   console.log(`Server berjalan di port ${PORT}`);
+})
+
+app.get("/", (req, res) => {
+  res.send("Backend API is running");
+})
+
   
