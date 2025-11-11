@@ -62,7 +62,7 @@ sequelize.authenticate()
     await sequelize.sync()
     console.log("🔄 Semua model berhasil disinkronkan ke database!");
 
-    app.listen(PORT, () => {
+    app.listen(PORT,"0.0.0.0", () => {
       console.log(`🚀 Server berjalan di port ${PORT} (listening on 0.0.0.0)`);
     })
 
