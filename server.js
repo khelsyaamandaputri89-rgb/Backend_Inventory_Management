@@ -59,10 +59,10 @@ app.use("/api/search", searchRouter)
 sequelize.authenticate()
   .then(async () => {
     console.log("✅ Koneksi ke PostgreSQL berhasil!");
-    await sequelize.sync({ alter: true });
+    await sequelize.sync()
     console.log("🔄 Semua model berhasil disinkronkan ke database!");
 
-    app.listen(PORT, () => {
+    app.listen(PORT,"0.0.0.0", () => {
       console.log(`🚀 Server berjalan di port ${PORT}`);
     })
   })
