@@ -1,7 +1,7 @@
 require("dotenv").config()
 const express = require("express")
-const app = express()
 const cors = require("cors")
+
 const sequelize = require("./db")
 const authRouter = require("./src/Routes/authRoute")
 const userRouter = require("./src/Routes/userRoute")
@@ -13,17 +13,26 @@ const reportRouter = require("./src/Routes/reportRoute")
 const stockRouter = require("./src/Routes/stockRoute")
 const dashboardRouter = require("./src/Routes/dashboardRoute")
 const searchRouter = require("./src/Routes/searchRoute")
+
+const app = express()
 const PORT = process.env.PORT || 7000
 
 const corsOptions = {
-  origin: 'https://frontendinventory-management.vercel.app', 
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  origin: ["https://frontendinventory-management.vercel.app"], 
+  methods: ["GET","HEAD","PUT","PATCH","POST","DELETE", "OPTIONS"],
   credentials: true,
-  optionsSuccessStatus: 204
+  allowedHeaders: ["Content-Type", "Authorization"]
 }
 
 app.use(cors(corsOptions))
+
+app.options(/.*/, cors(corsOptions))
+
 app.use(express.json())
+
+app.get("/", (req, res) => {
+  res.send("Backend API is running");
+})
 
 app.use("/api/auth", authRouter)
 
@@ -49,8 +58,5 @@ app.listen(PORT,"0.0.0.0", () => {
    console.log(`Server berjalan di port ${PORT}`);
 })
 
-app.get("/", (req, res) => {
-  res.send("Backend API is running");
-})
 
   
