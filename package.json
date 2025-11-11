@@ -22,7 +22,6 @@
   },
   "scripts": {
     "mg": "npx sequelize-cli migration:generate --name",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node server.js"
   }
 }
