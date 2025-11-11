@@ -64,12 +64,8 @@ sequelize.authenticate()
 
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`🚀 Server berjalan di port ${PORT}`);
-    });
+    })
   })
   .catch((err) => {
     console.error("❌ Gagal konek ke PostgreSQL:", err.message);
-  });
-
-app.listen(PORT,"0.0.0.0", () => {
-   console.log(`Server berjalan di port ${PORT}`);
-})
+  })
