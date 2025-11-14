@@ -19,15 +19,20 @@ const PORT = process.env.PORT || 8080
 
 const corsOptions = {
   origin: [
-            "https://frontendinventory-management.vercel.app",
-            "http://localhost:5173"
-  ], 
-  methods: ["GET","HEAD","PUT","PATCH","POST","DELETE", "OPTIONS"],
+    "https://frontendinventory-management.vercel.app",
+    "http://localhost:5173"
+  ],
+  methods: ["GET","HEAD","PUT","PATCH","POST","DELETE","OPTIONS"],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
 }
 
 app.use(cors(corsOptions))
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true")
+  next()
+})
 
 app.options(/.*/, cors(corsOptions))
 
