@@ -74,10 +74,6 @@ sequelize.authenticate()
     process.on("uncaughtException", (err) => {
       console.error("❌ Uncaught Exception:", err);
     })
-
-    setInterval(() => {
-      console.log("⏳ Keep-alive ping...");
-    }, 15000)
   })
   .catch((err) => {
     console.error("❌ Gagal konek ke PostgreSQL:", err.message);
