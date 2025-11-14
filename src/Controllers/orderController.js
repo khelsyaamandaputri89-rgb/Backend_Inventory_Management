@@ -104,7 +104,7 @@ const getOrder = async (req, res) => {
                 categories: order.OrderItems.map(i => i.Product.Category?.name || "No category").join(", "),
                 totalQty,
                 totalPrice,
-                date: order.createdAt
+                createdAt: order.createdAt
             }
         })
         console.log("User ID:", req.user.id);
@@ -146,7 +146,7 @@ const getAllOrder = async (req, res) => {
       categories: order.OrderItems.map(i => i.Product.Category?.name || "No category").join(", "),
       totalQty: order.OrderItems.reduce((sum, i) => sum + i.quantity, 0),
       totalPrice: Number(order.OrderItems.reduce((sum, i) => sum + i.total_price, 0)),
-      date: order.createdAt
+      createdAt: order.createdAt
     }))
 
     res.json(formattedOrders);
@@ -207,11 +207,12 @@ const searchOrders = async (req, res) => {
                 items: order.OrderItems.map(i => `${i.Product.name}`),
                 totalQty,
                 totalPrice,
-                date: order.createdAt
+                createdAt: order.createdAt
             }
         })
 
     console.log("Orders found:", orders.length)
+    console.log("Sample createdAt:", orders[0]?.createdAt)
 
     res.status(200).json(formattedOrders)
   } catch (error) {
@@ -244,4 +245,31 @@ const deleteOrder = async (req, res) => {
   }
 }
 
-module.exports = {createOrder, getOrder, getAllOrder, deleteOrder, searchOrders}
+const updateOrdersStatus = async (req, res) => {
+  try {
+    const {id} = req.params
+    const {status} = req.body
+
+    const validStatus = ["pending", "completed", "cancelled"]
+
+    if (!validStatus.includes(status)) {
+      return res.status(400).json({ message: "Invalid status value" })
+    }
+
+    const order = await Order.findByPk(id)
+
+    if (!order) {
+      return res.status(400).json({message: "Orders not found"})
+    }
+
+    order.status = status
+
+    await order.save()
+
+    res.json({ message: `Order status updated to ${status}`, order })
+  } catch (error) {
+    res.status(500).json({error : error.message})
+  }
+}
+
+module.exports = {createOrder, getOrder, getAllOrder, deleteOrder, searchOrders, updateOrdersStatus}

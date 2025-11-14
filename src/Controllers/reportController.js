@@ -1,7 +1,7 @@
 const {User, Categories, Product, Order, OrderItem, Stock} = require("../Models")
 const ExcelJs = require("exceljs")
 const PDFDocument = require("pdfkit")
-const {Op} = require("sequelize")
+const {Op, col, fn, literal} = require("sequelize")
 
 const exportProductExcel = async (data, res) => {
     const workbook = new ExcelJs.Workbook()
@@ -179,7 +179,7 @@ const exportOrderExcel = async (data, res) => {
         cell.fill = {
             type: "pattern",
             pattern: "solid",
-            fgColor: { argb: "D3D3D3" },
+            fgColor: { argb: "FFD3D3D3" },
             }
         cell.alignment = { vertical: "middle", horizontal: "center" }
     })
@@ -319,7 +319,7 @@ const exportStockExcel = async (data, res) => {
         cell.fill = {
             type: "pattern",
             pattern: "solid",
-            fgColor: { argb: "D3D3D3" },
+            fgColor: { argb: "FFD3D3D3" },
             }
         cell.alignment = { vertical: "middle", horizontal: "center" }
     })
@@ -417,7 +417,7 @@ const getSummary = async (req, res) => {
         const end = new Date()
 
         const orderItems = await OrderItem.findAll({
-            include: [{ model: Order, where: { status: "pending" } }],
+            include: [{ model: Order, where: { status: ["pending", "completed"] } }],
             where: { createdAt: { [Op.between]: [start, end] } },
             attributes: ["quantity", "product_price"]
         })
@@ -629,6 +629,53 @@ const searchReportStock = async (req, res) => {
   }
 }
 
+const getMonthlySales = async (req, res) => {
+  try {
+    const result = await Order.findAll({
+      attributes: [
+        [fn("TO_CHAR", col("createdAt"), "Month"), "month"],
+      ],
+      where: {
+        status: ["pending", "completed"],
+        createdAt: {
+          [Op.gte]: literal("NOW() - INTERVAL '30 DAY'"),
+        },
+      },
+      group: [fn("TO_CHAR", col("createdAt"), "Month")],
+      order: [[fn("MIN", col("createdAt")), "ASC"]],
+      raw: true,
+    })
+
+    const orderItems = await OrderItem.findAll({
+      attributes: [
+        [fn("TO_CHAR", col("createdAt"), "Month"), "month"],
+        [fn("SUM", col("total_price")), "totalSales"],
+        [fn("SUM", col("quantity")), "totalSold"],
+      ],
+      where: {
+        createdAt: {
+          [Op.gte]: literal("NOW() - INTERVAL '30 DAY'"),
+        },
+      },
+      group: [fn("TO_CHAR", col("createdAt"), "Month")],
+      raw: true,
+    })
+
+    const merged = result.map((r) => {
+      const found = orderItems.find((o) => o.month.trim() === r.month.trim());
+      return {
+        month: r.month.trim(),
+        totalSales: found ? Number(found.totalSales) : 0,
+        totalSold: found ? Number(found.totalSold) : 0,
+      }
+    })
+
+    res.json(merged);
+  } catch (error) {
+    console.error("Error in getMonthlySales:", error);
+    res.status(500).json({ error: error.message });
+  }
+}
 
 module.exports = {
     getProductReport, 
@@ -638,5 +685,6 @@ module.exports = {
     getStockSales, 
     searchReportProduct,
     searchReportOrder,
-    searchReportStock
+    searchReportStock,
+    getMonthlySales
 }

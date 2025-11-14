@@ -211,11 +211,14 @@ const dashboardSuperadmin = async (req, res) => {
 
         const totalCategories = await Categories.count()
 
+        const totalProducts = await Product.count()
+
         res.status(200).json({
             sales : totalSales,
             stock : totalStock,
             user : totalUser,
             totalCategories,
+            totalProducts,
             chart : chartData,
             categoryChart
         })

@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 const authMiddleware = require("../Middleware/authMiddleware")
 const checkRole = require("../Middleware/roleMiddleware")
-const {createOrder, getOrder, deleteOrder, getAllOrder, searchOrders} = require("../Controllers/orderController")
+const {createOrder, getOrder, deleteOrder, getAllOrder, searchOrders, updateOrdersStatus} = require("../Controllers/orderController")
 
 router.post("/",  authMiddleware, checkRole(["admin", "superadmin"]), createOrder)
 
@@ -15,5 +15,7 @@ router.post("/my", authMiddleware, checkRole(["user"]), createOrder)
 router.get("/search", authMiddleware, checkRole(["user", "admin", "superadmin"]), searchOrders)
 
 router.delete("/:id",  authMiddleware, checkRole(["user", "admin", "superadmin"]), deleteOrder)
+
+router.put("/:id/status", authMiddleware, checkRole(["user", "admin", "superadmin"]), updateOrdersStatus)
 
 module.exports = router

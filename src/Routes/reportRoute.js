@@ -10,7 +10,8 @@ const {
     getStockSales, 
     searchReportProduct,
     searchReportOrder,
-    searchReportStock
+    searchReportStock,
+    getMonthlySales
 } = require("../Controllers/reportController")
 
 router.get("/product", authMiddleware, checkRole(["admin", "superadmin"]), getProductReport)
@@ -28,5 +29,7 @@ router.get("/products/search", authMiddleware, checkRole(["admin", "superadmin"]
 router.get("/orders/search", authMiddleware, checkRole(["admin", "superadmin"]), searchReportOrder)
 
 router.get("/stocks/search", authMiddleware, checkRole(["admin", "superadmin"]), searchReportStock)
+
+router.get("/monthly-sales", authMiddleware, checkRole(["admin", "superadmin"]), getMonthlySales)
 
 module.exports = router
