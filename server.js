@@ -1,7 +1,9 @@
 const app = require("./app")
 const sequelize = require("./db")
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT
+
+console.log("PORT dari Railway:", process.env.PORT);
 
 ;(async () => {
   try {
