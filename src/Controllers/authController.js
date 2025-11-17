@@ -51,6 +51,7 @@ const login = async (req, res) => {
         const token = jwt.sign({id: user.id,username: user.username,email: user.email,role: user.role}, 
         process.env.SECRET_KEY, {expiresIn : '1d'} )
 
+        console.log("Secret key:", process.env.SECRET_KEY);
         console.log("Login request body:", req.body);
         console.log("Found user:", user);
         console.log("Secret key:", process.env.SECRET_KEY);
