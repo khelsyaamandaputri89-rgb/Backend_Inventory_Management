@@ -1,6 +1,6 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
-const { VITE_SERVICE_URL } = process.env
+const { DATABASE_URL } = process.env
 
 // const isProduction = !!process.env.DATABASE_URL;
 
@@ -34,7 +34,7 @@ const { VITE_SERVICE_URL } = process.env
 //   console.log("🟠 Mode: Local Development");
 // }
 
-const db = new Sequelize(VITE_SERVICE_URL, {
+const db = new Sequelize(DATABASE_URL, {
   define: {
     timestamp: false
   }
