@@ -22,6 +22,6 @@
   },
   "scripts": {
     "mg": "npx sequelize-cli migration:generate --name",
-    "start": "node server.js"
+    "start": "node -r dotenv/config server.js"
   }
 }
