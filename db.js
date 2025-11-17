@@ -1,5 +1,6 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
+const { VITE_SERVICE_URL } = process.env
 
 // const isProduction = !!process.env.DATABASE_URL;
 
