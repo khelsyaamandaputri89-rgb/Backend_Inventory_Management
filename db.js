@@ -40,3 +40,5 @@ const db = new Sequelize(VITE_SERVICE_URL, {
 })
 
 module.exports = db;
+
+
