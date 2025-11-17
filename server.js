@@ -70,5 +70,3 @@ app.use("/api/search", searchRouter)
     console.error("❌ Error connecting DB:", err.message)
   }
 })()
-
-module.exports = app
