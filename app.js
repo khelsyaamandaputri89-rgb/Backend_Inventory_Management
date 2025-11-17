@@ -18,7 +18,7 @@ const app = express()
 
 const corsOptions = {
   origin: [
-    "https://frontendinventory-management.vercel.app",
+    "frontend-inventory-management-chi.vercel.app",
     "http://localhost:5173"
   ],
   methods: ["GET","HEAD","PUT","PATCH","POST","DELETE","OPTIONS"],
