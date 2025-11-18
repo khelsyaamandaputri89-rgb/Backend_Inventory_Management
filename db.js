@@ -2,9 +2,11 @@ const { Sequelize } = require("sequelize")
 const config = require("./src/config/config.json")
 require("dotenv").config()
 
+const isProduction = process.env.NODE_ENV === "production" || process.env.RAILWAY_ENVIRONMENT === "production"
+
 let sequelize
 
-if (process.env.RAILWAY_ENVIRONMENT === "production") {
+if (isProduction) {
 
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: "postgres",
@@ -18,12 +20,18 @@ if (process.env.RAILWAY_ENVIRONMENT === "production") {
     },
   })
 } else {
+    const config = require("./src/config/config.json")["development"]
     sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  )
-}
+      config.database,
+      config.username,
+      config.password,
+      {
+        host: config.host,
+        port: config.port,
+        dialect: "postgres",
+        logging: true, 
+      }
+    )
+  }
 
 module.exports = sequelize
