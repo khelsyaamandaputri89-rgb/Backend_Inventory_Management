@@ -26,7 +26,6 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"]
 }
 
-app.use(cors(corsOptions))
 app.use(cors(corsOptions));
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
