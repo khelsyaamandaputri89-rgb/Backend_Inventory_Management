@@ -2,8 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const sequelize = require("../../db")
-const {Sequelize, DataTypes} = require('sequelize');
+const { sequelize } = require("../../db.js")
+const { DataTypes } = require('sequelize');
 const basename = path.basename(__filename); 
 // const config = require(path.join(__dirname, '../config/config.json'))["development"];
 const db = {};
