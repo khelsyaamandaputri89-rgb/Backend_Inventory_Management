@@ -3,7 +3,7 @@ const db = require("./src/Models")
 
 const PORT = process.env.PORT || 3000
 
-console.log("PORT dari Railway:", process.env.PORT)
+console.log("PORT dari Railway:", process.env.PORT);
 
 (async () => {
   try {
