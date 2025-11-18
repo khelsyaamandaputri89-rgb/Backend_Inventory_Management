@@ -13,7 +13,7 @@ console.log("PORT dari Railway:", process.env.PORT);
     await sequelize.sync()
     console.log("🔄 Models synced (tabel otomatis diperbarui)")
 
-    app.listen(PORT, () => {
+    app.listen(PORT, "0.0.0.0", () => {
       console.log(`🚀 Server berjalan di port ${PORT}`)
     })
   } catch (err) {
