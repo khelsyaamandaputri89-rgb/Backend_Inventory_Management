@@ -32,4 +32,4 @@ if (isProduction) {
   )
 }
 
-module.exports = { sequelize }
+module.exports = sequelize 

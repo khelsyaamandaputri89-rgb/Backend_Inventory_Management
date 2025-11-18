@@ -1,5 +1,5 @@
 const app = require("./app")
-const { sequelize } = require("./db.js")
+const sequelize = require("./db.js")
 
 const PORT = process.env.PORT || 3000
 
@@ -10,7 +10,7 @@ console.log("PORT dari Railway:", process.env.PORT);
     await sequelize.authenticate()
     console.log("🟢 Database connected")
 
-    await sequelize.sync({ alter: true })
+    await sequelize.sync()
     console.log("🔄 Models synced (tabel otomatis diperbarui)")
 
     app.listen(PORT, "0.0.0.0", () => {
