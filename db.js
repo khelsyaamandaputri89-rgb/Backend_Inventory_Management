@@ -34,4 +34,8 @@ if (isProduction) {
     )
   }
 
+  sequelize.authenticate()
+  .then(() => console.log("DB connected"))
+  .catch(err => console.error("DB connection failed:", err));
+
 module.exports = sequelize
