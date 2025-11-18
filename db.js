@@ -4,7 +4,7 @@ require("dotenv").config()
 
 let sequelize
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.RAILWAY_ENVIRONMENT === "production") {
 
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: "postgres",
