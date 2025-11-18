@@ -1,21 +1,29 @@
-const { Sequelize } = require("sequelize");
-require("dotenv").config();
+const { Sequelize } = require("sequelize")
+const config = require("./src/config")
+require("dotenv").config()
 
-const { DATABASE_URL } = process.env;
+let sequelize
 
-const db = new Sequelize(DATABASE_URL, {
-  dialect: "postgres",
-  protocol: "postgres",
-  logging: false,
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false
-    }
-  },
-  define: {
-    timestamps: false
-  }
-});
+if (process.env.NODE_ENV === "production") {
 
-module.exports = db;
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: "postgres",
+    protocol: "postgres",
+    logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, 
+      },
+    },
+  })
+} else {
+    sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  )
+}
+
+module.exports = sequelize
