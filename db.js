@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize")
-const config = require("./src/config")
+const config = require("./src/config/config.json")
 require("dotenv").config()
 
 let sequelize
