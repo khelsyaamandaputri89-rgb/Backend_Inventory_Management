@@ -2,17 +2,18 @@
 
 const fs = require('fs');
 const path = require('path');
+const sequelize = require("../../db")
 const {Sequelize, DataTypes} = require('sequelize');
 const basename = path.basename(__filename); 
-const config = require(path.join(__dirname, '../config/config.json'))["development"];
+// const config = require(path.join(__dirname, '../config/config.json'))["development"];
 const db = {};
 
-const sequelize = new Sequelize (
-    config.database,  
-    config.username,  
-    config.password,  
-    config  
-  )
+// const sequelize = new Sequelize (
+//     config.database,  
+//     config.username,  
+//     config.password,  
+//     config  
+//   )
 
 fs
   .readdirSync(__dirname)
@@ -36,6 +37,6 @@ Object.keys(db).forEach(modelName => {
 });
 
 db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+db.Sequelize = require("sequelize");
 
 module.exports = db;

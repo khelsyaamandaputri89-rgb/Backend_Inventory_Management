@@ -1,5 +1,4 @@
 const { Sequelize } = require("sequelize")
-const config = require("./src/config/config.json")
 require("dotenv").config()
 
 const isProduction = process.env.RAILWAY_ENVIRONMENT === "production" || process.env.NODE_ENV === "production"
